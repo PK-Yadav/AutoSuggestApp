@@ -1,5 +1,10 @@
 package auto.suggest.util;
 
+/**
+ * Enum to represent Search type
+ *
+ * @author pappuy
+ */
 public enum SearchTypeEnum {
 	PREFIX("PRE"), POSTFIX("POS"), FUZZY("FUZ");
 

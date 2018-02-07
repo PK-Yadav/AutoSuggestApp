@@ -7,7 +7,9 @@ import auto.suggest.util.SearchTypeEnum;
 import java.util.Scanner;
 
 /**
- * Hello world!
+ * Main class, start of this application.
+ *
+ * @author pappuy
  */
 public class App {
 	public static void main(String[] args) {

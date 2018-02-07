@@ -1,17 +1,19 @@
 package auto.suggest.service;
 
-import auto.suggest.serviceintf.IAutoSuggestSearch;
+import auto.suggest.pojo.AutoSuggestBuffer;
 import auto.suggest.util.RegexGenerator;
 import auto.suggest.util.SearchTypeEnum;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-public class AutoSuggestService implements IAutoSuggestSearch{
-
-	private HashSet<String> buffer = new HashSet<String>();
+/**
+ * AutoSuggestService class, mainly contains code to perform reading of file and storing it into buffer.
+ * will perfom search on buffer
+ *
+ * @author pappuy
+ */
+public class AutoSuggestService{
 	private String searchKey = null;
 	private String fileName = null;
 	private SearchTypeEnum searchType =null;
@@ -23,27 +25,13 @@ public class AutoSuggestService implements IAutoSuggestSearch{
 	}
 
 	public void readFileAndPerformAutoSuggest() throws IOException{
-		setBuffer(FileReader.getWordsFromFile(getFileName()));
-		HashSet<String> suggestedWords= seachKeys(RegexGenerator.getRegexForkeyBySearchType(getSearchKey(), getSearchType()));
+		AutoSuggestBuffer buffer = new AutoSuggestBuffer(FileReader.getWordsFromFile(getFileName()));
+		HashSet<String> suggestedWords= buffer.seachKeys(RegexGenerator.getRegexForkeyBySearchType(getSearchKey(), getSearchType()));
 		display(suggestedWords);
-	}
-
-	public HashSet<String > seachKeys(String keyRegex){
-		HashSet<String > matchedWords = new HashSet<>();
-		matchedWords.addAll(getBuffer().stream().filter(word -> word.matches(keyRegex)).collect(Collectors.toSet()));
-		return matchedWords;
 	}
 
 	private void display(HashSet<String> suggestedWords){
 		suggestedWords.stream().forEach(elem-> System.out.println(elem));
-	}
-
-	public HashSet<String> getBuffer() {
-		return buffer;
-	}
-
-	public void setBuffer(HashSet<String> buffer) {
-		this.buffer = buffer;
 	}
 
 	public String getSearchKey() {
